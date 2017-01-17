@@ -1,0 +1,17 @@
+{
+  "name": "urlshortener",
+  "version": "0.0.0",
+  "description": "For fcc project",
+  "main": "server.js",
+  "repository": "",
+  "author": "Steven Williams <dr.williams.steven@gmail.com>",
+  "scripts": {
+    "test": "test",
+    "start": "node server.js"
+},
+  "dependencies": {
+    "body-parser": "^1.13.3",
+    "express": "^4.13.3",
+    "underscore": "^1.8.3"
+    }
+}
