@@ -9,8 +9,14 @@ var todoNextId = 1;
 
 app.use(bodyParser.json());
 
-app.get('/', function(req, res) {
-    res.send('Todo API Root');
+app.use(express.static(__dirname + '/View'));
+//Store all HTML files in view folder.
+app.use(express.static(__dirname + '/Scripts'));
+//Store all JS and CSS in Scripts folder.
+
+app.get('/',function(request,response){
+  response.sendFile('index.html');
+  //It will find and locate index.html from View or Scripts
 });
 
 app.get('/todos', function(req, res) {
@@ -40,7 +46,6 @@ app.post('/todos', function(req, res) {
    todos.push(body);
    res.json(body);
 });
-
 
 
  app.listen(PORT);
