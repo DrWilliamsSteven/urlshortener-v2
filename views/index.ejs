@@ -27,13 +27,13 @@
     <div class="jumbotron"  style="padding:40px;">
       <h1>First CRUD app!</h1>
       <p>This is my First CRUD app. Submit a quote and its author below to add it to the list.</p>
-      <p><a class="btn btn-primary btn-lg" href="#" role="button">Learn more</a></p>
+      
 
       <ul class="quotes">
         <% for(var i=0; i<quotes.length; i++) {%>
           <li class="quote">
-            <span><%= quotes[i].name %></span>
-            <span><%= quotes[i].quote %></span>
+            <span><%= quotes[i].name %></span>: 
+            "<span><em><%= quotes[i].quote %></em></span>"
           </li>
         <% } %>
       </ul>
@@ -44,6 +44,7 @@
       <button type="submit">Submit</button>
     </form>
     
+    <p><a class="btn btn-primary btn-lg" href="#" role="button">Learn more</a></p>
     </div>
   </div>
 </body>
