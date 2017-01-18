@@ -1,7 +1,7 @@
-Currently under construction
+My first CRUD app!
 
-Will eventually be branched into a todo app and a url shortener. 
+Allows a quote and author to be submitted, and added to the database and displayed on the page.
 
-Projects for FreeCodeCamp and Node.js course..
+Project for Node.js course..
 
 https://blooming-atoll-urlshortener.herokuapp.com/
