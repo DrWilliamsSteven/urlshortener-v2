@@ -8,12 +8,14 @@
   "scripts": {
     "test": "test",
     "start": "node server.js"
-},
+  },
   "dependencies": {
-    "body-parser": "^1.13.3",
+    "body-parser": "^1.16.0",
+    "ejs": "^2.5.5",
     "express": "^4.13.3",
-    "underscore": "^1.8.3",
     "http": "0.0.0",
+    "pug": "^2.0.0-beta6",
+    "underscore": "^1.8.3",
     "url": "^0.11.0"
-    }
+  }
 }
