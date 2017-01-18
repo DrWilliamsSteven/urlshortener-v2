@@ -4,19 +4,20 @@ var _ = require("underscore");
 
 // for app
 var app = express();
+
+var dotenv = require('dotenv');
+dotenv.config();
+var uri = process.env.MONGOLAB_URI;
 var PORT = process.env.PORT || 8080;
 
 // for mongoDB
 var MongoClient = require('mongodb').MongoClient;
 var assert = require("assert");
-var dotenv = require('dotenv');
-dotenv.config();
-var url = process.env.MONGOLAB_URI;
-//console.log("url: " + url + " type of: " + typeof(url));
+//console.log("url: " + uri + " type of: " + typeof(uri));
 
 
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({extended: true}))
+app.use(bodyParser.urlencoded({extended: true}));
 
 // set static views
   app.use(express.static(__dirname + '/views'));
@@ -36,9 +37,9 @@ app.use(bodyParser.urlencoded({extended: true}))
 */
 
 // connect to mongoDB
-var db
+var db;
 
-MongoClient.connect(url, (err, database) => {
+MongoClient.connect(uri, (err, database) => {
   if (err) return console.log(err);
   db = database;
   app.listen(PORT, () => {
@@ -50,19 +51,19 @@ app.post('/quotes', (req, res) => {
   console.log("In comes a " + req.method + " to " + req.url);
   db.collection('quotes').save(req.body, (err, result) => {
     if (err) return console.log(err);
-    console.log('saved to database')
-    res.redirect('/')
-  })
-})
+    console.log('saved to database');
+    res.redirect('/');
+  });
+});
 
 
 app.get('/', (req, res) => {
   db.collection('quotes').find().toArray((err, result) => {
-    if (err) return console.log(err)
-    res.render('index.ejs', {quotes: result})
+    if (err) return console.log(err);
+    res.render('index.ejs', {quotes: result});
     //console.log(result);
-  })
-})
+  });
+});
 
 /*
 // for mongoDB testing

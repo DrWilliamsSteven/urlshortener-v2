@@ -1,12 +1,12 @@
 {
-  "name": "urlshortener",
+  "name": "firstcrudapp",
   "version": "0.0.0",
   "description": "For fcc project",
   "main": "server.js",
   "repository": "",
   "author": "Steven Williams <dr.williams.steven@gmail.com>",
   "scripts": {
-    "test": "test",
+    "test": "",
     "start": "node server.js"
   },
   "dependencies": {
