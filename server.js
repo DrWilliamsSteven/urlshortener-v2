@@ -12,6 +12,8 @@ var assert = require("assert");
 var dotenv = require('dotenv');
 dotenv.config();
 var url = process.env.MONGOLAB_URI;
+//console.log("url: " + url + " type of: " + typeof(url));
+
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}))
