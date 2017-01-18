@@ -18,7 +18,7 @@ var assert = require("assert");
 //console.log("url: " + uri + " type of: " + typeof(uri));
 
 
-//app.use(bodyParser.json());
+app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 
 // set static views
@@ -84,6 +84,17 @@ app.put('/quotes', (req, res) => {
     res.send(result)
   })
 })
+
+app.delete('/quotes', (req, res) => {
+  console.log("In comes a " + req.method + " to " + req.url);
+  db.collection('quotes').findOneAndDelete({name: req.body.name},
+  (err, result) => {
+    if (err) return res.send(500, err)
+    res.json('A darth vader quote got deleted')
+  })
+})
+
+
 /*
 // for mongoDB testing
 var firstNameVal = process.argv[2];
