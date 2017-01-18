@@ -9,7 +9,7 @@ var PORT = process.env.PORT || 8080;
 // for mongoDB
 var MongoClient = require('mongodb').MongoClient;
 var assert = require("assert");
-var url = 'mongodb://localhost:27017/test';
+var url = process.env.MONGOLAB_URI;
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}))
