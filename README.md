@@ -4,4 +4,4 @@ Allows a quote and author to be submitted, and added to the database and display
 
 Project for Node.js course..
 
-https://blooming-atoll-urlshortener.herokuapp.com/
+https://blooming-crudapp-quotelist.herokuapp.com/
