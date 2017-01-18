@@ -1,3 +1,6 @@
+// following the fantastic tutorial by:
+//https://zellwk.com/blog/crud-express-mongodb/
+
 var express = require("express");
 var bodyParser = require('body-parser');
 
@@ -15,7 +18,7 @@ var assert = require("assert");
 //console.log("url: " + uri + " type of: " + typeof(uri));
 
 
-app.use(bodyParser.json());
+//app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 
 // set static views
@@ -23,9 +26,11 @@ app.use(bodyParser.urlencoded({extended: true}));
   //Store all HTML files in view folder.
   app.use(express.static(__dirname + '/Scripts'));
   //Store all JS and CSS in Scripts folder.
+  app.use(express.static('public'))
   
   app.set('view engine', 'ejs');
   app.set('views', './views');
+  
 
 // serve static view
 /*
@@ -64,6 +69,21 @@ app.get('/', (req, res) => {
   });
 });
 
+app.put('/quotes', (req, res) => {
+  db.collection('quotes')
+  .findOneAndUpdate({name: 'Yoda'}, {
+    $set: {
+      name: req.body.name,
+      quote: req.body.quote
+    }
+  }, {
+    sort: {_id: -1},
+    upsert: true
+  }, (err, result) => {
+    if (err) return res.send(err)
+    res.send(result)
+  })
+})
 /*
 // for mongoDB testing
 var firstNameVal = process.argv[2];
