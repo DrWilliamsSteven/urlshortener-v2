@@ -9,6 +9,8 @@ var PORT = process.env.PORT || 8080;
 // for mongoDB
 var MongoClient = require('mongodb').MongoClient;
 var assert = require("assert");
+var dotenv = require('dotenv');
+dotenv.config();
 var url = process.env.MONGOLAB_URI;
 
 app.use(bodyParser.json());
