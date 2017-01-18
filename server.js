@@ -1,13 +1,12 @@
 var express = require("express");
 var bodyParser = require('body-parser');
-var _ = require("underscore");
 
 // for app
 var app = express();
 
 var dotenv = require('dotenv');
 dotenv.config();
-var uri = process.env.MONGOLAB_URI;
+var uri = process.env.MONGODB_URI;
 var PORT = process.env.PORT || 8080;
 
 // for mongoDB
