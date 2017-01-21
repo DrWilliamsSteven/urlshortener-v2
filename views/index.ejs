@@ -10,7 +10,7 @@
   <div style="margin:100px;">
     <nav class="navbar navbar-inverse navbar-static-top">
   <div class="container">
-    <a class="navbar-brand" href="/">My first CRUD app</a>
+    <a class="navbar-brand" href="/">url shortener</a>
     <ul class="nav navbar-nav">
       <li class="active">
         <a href="/">Home</a>
@@ -25,20 +25,20 @@
   </div>
 </nav>
     <div class="jumbotron"  style="padding:40px;">
-      <h2>Star Wars quote list!</h2>
-      <p>This is my first CRUD app. Please submit a quote and its author below to add it to this list.</p>
+      <h2>url shortener</h2>
+      <p>This is a url shortener.</p>
       
       <ul class="quotes">
-        <% for(var i=0; i<quotes.length; i++) {%>
+        <% for(var i=0; i<urls.length; i++) {%>
           <li class="quote">
-            <span><%= quotes[i].name %></span>: "<span><em><%= quotes[i].quote %></em></span>"
+            <span><%= urls[i].name %></span>: "<span><%= urls[i].shortened %></span>"
           </li>
         <% } %>
       </ul>
     
-    <form action="/quotes" method="POST">
-      <input type="text" placeholder="name" name="name">
-      <input type="text" placeholder="quote" name="quote">
+    <form action="/newurl" method="POST">
+      <label for="urlname">Enter a url: </label>
+      <input type="text" placeholder="url" name="urlname">
       <button type="submit">Submit</button>
     </form>
     

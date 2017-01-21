@@ -15,8 +15,6 @@ var PORT = process.env.PORT || 8080;
 // for mongoDB
 var MongoClient = require('mongodb').MongoClient;
 var assert = require("assert");
-//console.log("url: " + uri + " type of: " + typeof(uri));
-
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
@@ -51,9 +49,9 @@ MongoClient.connect(uri, (err, database) => {
   });
 });
 
-app.post('/quotes', (req, res) => {
+app.post('/newurl', (req, res) => {
   console.log("In comes a " + req.method + " to " + req.url);
-  db.collection('quotes').save(req.body, (err, result) => {
+  db.collection('shorturl').save(req.body, (err, result) => {
     if (err) return console.log(err);
     console.log('saved to database');
     res.redirect('/');
@@ -62,14 +60,15 @@ app.post('/quotes', (req, res) => {
 
 
 app.get('/', (req, res) => {
-  db.collection('quotes').find().toArray((err, result) => {
+  db.collection('shorturl').find().toArray((err, result) => {
     if (err) return console.log(err);
-    res.render('index.ejs', {quotes: result});
+    res.render('index.ejs', {urls: result});
     //console.log(result);
   });
 });
 
-app.put('/quotes', (req, res) => {
+/*
+app.put('/newurl', (req, res) => {
   db.collection('quotes')
   .findOneAndUpdate({name: 'Yoda'}, {
     $set: {
@@ -84,6 +83,7 @@ app.put('/quotes', (req, res) => {
     res.send(result)
   })
 })
+*/
 
 app.delete('/quotes', (req, res) => {
   console.log("In comes a " + req.method + " to " + req.url);
