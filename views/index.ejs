@@ -10,7 +10,7 @@
   <div style="margin:100px;">
     <nav class="navbar navbar-inverse navbar-static-top">
   <div class="container">
-    <a class="navbar-brand" href="/">First CRUD app</a>
+    <a class="navbar-brand" href="/">My first CRUD app</a>
     <ul class="nav navbar-nav">
       <li class="active">
         <a href="/">Home</a>
@@ -25,15 +25,13 @@
   </div>
 </nav>
     <div class="jumbotron"  style="padding:40px;">
-      <h1>First CRUD app!</h1>
-      <p>This is my First CRUD app. Submit a quote and its author below to add it to the list.</p>
+      <h2>Star Wars quote list!</h2>
+      <p>This is my first CRUD app. Please submit a quote and its author below to add it to this list.</p>
       
-
       <ul class="quotes">
         <% for(var i=0; i<quotes.length; i++) {%>
           <li class="quote">
-            <span><%= quotes[i].name %></span>: 
-            "<span><em><%= quotes[i].quote %></em></span>"
+            <span><%= quotes[i].name %></span>: "<span><em><%= quotes[i].quote %></em></span>"
           </li>
         <% } %>
       </ul>
@@ -46,12 +44,12 @@
     
     <div>
       <p>Replace last quote written by Master Yoda with a quote written by Darth Vader</p>
-      <p><button id="update"> Darth Vader invades! </button></p>
+      <button id="update"> Darth Vader invades! </button>
     </div>
 
     <div>
       <p>Delete Darth Vader's first quote</p>
-      <p></p><button id="delete"> Delete first Darth Vader quote </button></p>
+      <button id="delete"> Delete first Darth Vader quote </button>
     </div>
     
     <div>
@@ -60,6 +58,12 @@
     
     </div>
   </div>
+  <footer class="footer">
+          <div class="container">
+        <br>  
+        <p class="text-muted">&copy; 2017 <a href="https://github.com/DrWilliamsSteven" target="_blank">Steven Williams</a> </p>
+              </div>
+      </footer>
   <script src="main.js"></script>
 </body>
 </html>
