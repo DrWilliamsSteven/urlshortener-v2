@@ -1,6 +1,6 @@
 <html>
 <head>
-  <title>First CRUD app</title>
+  <title>url shortener app</title>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap-theme.min.css">
@@ -31,7 +31,7 @@
       <ul class="quotes">
         <% for(var i=0; i<urls.length; i++) {%>
           <li class="quote">
-            <span><%= urls[i].name %></span>: "<span><%= urls[i].shortened %></span>"
+            <span><%= urls[i].urlname %></span>: "<span><%= urls[i].shortened %></span>"
           </li>
         <% } %>
       </ul>
