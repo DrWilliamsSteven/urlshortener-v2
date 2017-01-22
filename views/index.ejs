@@ -31,14 +31,14 @@
       <ul class="quotes">
         <% for(var i=0; i<urls.length; i++) {%>
           <li class="quote">
-            <span><%= urls[i].urlname %></span>: "<span><%= urls[i].shortened %></span>"
+            <span><%= urls[i].original_url %></span>: "<span><%= urls[i].short_url %></span>"
           </li>
         <% } %>
       </ul>
     
-    <form action="/newurl" method="POST">
-      <label for="urlname">Enter a url: </label>
-      <input type="text" placeholder="url" name="urlname">
+    <form action="/new" method="POST">
+      <label for="original_url">Enter a url: </label>
+      <input type="text" placeholder="url" name="original_url">
       <button type="submit">Submit</button>
     </form>
     

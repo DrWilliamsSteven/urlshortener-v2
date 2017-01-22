@@ -3,6 +3,8 @@
 
 var express = require("express");
 var bodyParser = require('body-parser');
+var _ = require('underscore');
+var validate = require("validate.js");
 
 // for app
 var app = express();
@@ -16,6 +18,8 @@ var PORT = process.env.PORT || 8080;
 var MongoClient = require('mongodb').MongoClient;
 var assert = require("assert");
 
+var nextURLID = 1;
+
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 
@@ -24,20 +28,11 @@ app.use(bodyParser.urlencoded({extended: true}));
   //Store all HTML files in view folder.
   app.use(express.static(__dirname + '/Scripts'));
   //Store all JS and CSS in Scripts folder.
-  app.use(express.static('public'))
+  app.use(express.static('public'));
   
   app.set('view engine', 'ejs');
   app.set('views', './views');
   
-
-// serve static view
-/*
-  app.get('/',function(req, res){
-    res.sendFile('index.ejs');
-    //It will find and locate index.html from View or Scripts
-  });
-*/
-
 // connect to mongoDB
 var db;
 
@@ -49,16 +44,45 @@ MongoClient.connect(uri, (err, database) => {
   });
 });
 
-app.post('/newurl', (req, res) => {
+app.post('/new', (req, res) => {
   console.log("In comes a " + req.method + " to " + req.url);
-  db.collection('shorturl').save(req.body, (err, result) => {
+  var body = _.pick(req.body, 'original_url');
+  
+  if(!_.isString(body.original_url) || body.original_url.trim().length === 0) {
+    return res.status(400).send();
+  }
+  body.original_url = body.original_url.trim();
+  
+  if(validate({website: body.original_url}, {website: {url: true}}) === undefined) {
+  body.short_url = nextURLID.toString(16);
+  body.id = nextURLID;
+  nextURLID++;
+  
+  db.collection('shorturl').save(body, (err, result) => {
     if (err) return console.log(err);
     console.log('saved to database');
     res.redirect('/');
-  });
+  }); 
+  } else {
+    res.json('That is not a valid url');
+  }
 });
 
-
+ app.get('/:short_url', function(req, res) {
+    console.log("In comes a " + req.method + " to " + req.url);
+    var entered_url = req.params.short_url;
+     db.collection('shorturl').find({short_url: entered_url}).each((err, result) => {
+        if (err) return console.log(err);
+        if (result) {
+        
+        res.writeHead(302, {'Location': result.original_url});
+        res.end();
+        return false; 
+          
+        }
+    });
+});
+ 
 app.get('/', (req, res) => {
   db.collection('shorturl').find().toArray((err, result) => {
     if (err) return console.log(err);
@@ -67,139 +91,13 @@ app.get('/', (req, res) => {
   });
 });
 
-/*
-app.put('/newurl', (req, res) => {
-  db.collection('quotes')
-  .findOneAndUpdate({name: 'Yoda'}, {
-    $set: {
-      name: req.body.name,
-      quote: req.body.quote
-    }
-  }, {
-    sort: {_id: -1},
-    upsert: true
-  }, (err, result) => {
-    if (err) return res.send(err)
-    res.send(result)
-  })
-})
-*/
-
-app.delete('/quotes', (req, res) => {
+app.delete('/new', (req, res) => {
   console.log("In comes a " + req.method + " to " + req.url);
-  db.collection('quotes').findOneAndDelete({name: req.body.name},
+  db.collection('shorturl').findOneAndDelete({name: req.body.name},
   (err, result) => {
-    if (err) return res.send(500, err)
-    res.json('A darth vader quote got deleted')
-  })
-})
-
-
-/*
-// for mongoDB testing
-var firstNameVal = process.argv[2];
-var lastNameVal = process.argv[3];
-var doc = {
-      firstName: firstNameVal,
-      lastName: lastNameVal
-    };
-    
-mongo.connect(ip_mongo, function(err, db) {
-      // db gives access to the database
-      if(err){
-        console.log('There was an error: ' + err);
-      } else {
-      
-    var collection = db.collection('docs');
-      
-    collection.insert(doc, function(err, data) {
-      if(err){
-        console.log('There was an error: ' + err);
-      } else {
-        console.log(JSON.stringify(doc));
-      }
-      db.close();
-    });
-  } 
-});
-
-// testing mongodb
-var insertDocument = function(db, callback) {
-   db.collection('restaurants').insertOne( {
-      "address" : {
-         "street" : "2 Avenue",
-         "zipcode" : "10075",
-         "building" : "1480",
-         "coord" : [ -73.9557413, 40.7720266 ]
-      },
-      "borough" : "Manhattan",
-      "cuisine" : "Italian",
-      "grades" : [
-         {
-            "date" : new Date("2014-10-01T00:00:00Z"),
-            "grade" : "A",
-            "score" : 11
-         },
-         {
-            "date" : new Date("2014-01-16T00:00:00Z"),
-            "grade" : "B",
-            "score" : 17
-         }
-      ],
-      "name" : "Vella",
-      "restaurant_id" : "41704620"
-   }, function(err, result) {
-    assert.equal(err, null);
-    console.log("Inserted a document into the restaurants collection.");
-    callback();
+    if (err) return res.send(500, err);
+    res.json('A url got deleted');
   });
-};
-
-MongoClient.connect(url, function (err, db) {
-  if (err) throw err
-
-  db.collection('restaurants').find().toArray(function (err, result) {
-    if (err) throw err
-
-    console.log(result)
-  })
-})
-// end mongo testing
-*/
-
-
-/*
-// TODO app code, node.js course
-app.get('/todos', function(req, res) {
-  console.log("In comes a " + request.method + " to " + request.url);
-    res.json(todos);
 });
-
-app.get('/todos/:id', function(req, res) {
-  console.log("In comes a " + request.method + " to " + request.url);
-  var todoID = parseInt(req.params.id, 10);
-  var matchedTodo = _.findWhere(todos, {id: todoID});
-  
-  if(matchedTodo){
-    res.json(matchedTodo);
-  } else {
-    res.status(404).send();
-  }
-});
-
-app.post('/todos', function(req, res) {
-  console.log("In comes a " + request.method + " to " + request.url);
-  var body = _.pick(req.body, 'description', 'completed');
-  
-  if(!_.isBoolean(body.completed) || !_.isString(body.description) || body.description.trim().length === 0) {
-    return res.status(400).send();
-  }
-  
-   body.description = body.description.trim();
-   body.id = todoNextId++;
-   todos.push(body);
-   res.json(body);
-});
-*/
 
 
