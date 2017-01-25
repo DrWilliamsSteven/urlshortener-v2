@@ -54,43 +54,30 @@ app.post('/new', (req, res) => {
   body.original_url = body.original_url.trim();
   
   if(validate({website: body.original_url}, {website: {url: true}}) === undefined) {
-  body.short_url = nextURLID.toString(16);
-  body.id = nextURLID;
-  nextURLID++;
-  
+
   // check if already in db
   
   db.collection('shorturl').save(body, (err, result) => {
     if (err) return console.log(err);
     console.log('saved to database');
-    res.redirect('/');
-  }); 
+    
+    db.collection('shorturl').update(
+   { "_id" : body._id },
+   {$set: {"short_url": body._id.toString().slice(18,24)}
+    });
+  });
+    
+  res.redirect('/');
+
   } else {
     res.json('That is not a valid url');
   }
 });
 
-/*
-app.put('/newurl', (req, res) => {
-  db.collection('quotes')
-  .findOneAndUpdate({name: 'Yoda'}, {
-    $set: {
-      name: req.body.name,
-      quote: req.body.quote
-    }
-  }, {
-    sort: {_id: -1},
-    upsert: true
-  }, (err, result) => {
-    if (err) return res.send(err)
-    res.send(result)
-  })
-})
-*/
-
  app.get('/:short_url', function(req, res) {
     console.log("In comes a " + req.method + " to " + req.url);
-    var entered_url = req.params.short_url;
+    console.log(req.query);
+    var entered_url = req.query.short_url;
      db.collection('shorturl').find({short_url: entered_url}).each((err, result) => {
         if (err) return console.log(err);
         if (result) {
@@ -103,6 +90,7 @@ app.put('/newurl', (req, res) => {
     });
 });
  
+ 
 app.get('/', (req, res) => {
   db.collection('shorturl').find().toArray((err, result) => {
     if (err) return console.log(err);
@@ -111,7 +99,8 @@ app.get('/', (req, res) => {
   });
 });
 
-app.delete('/new', (req, res) => {
+/*
+app.delete('/delete', (req, res) => {
   console.log("In comes a " + req.method + " to " + req.url);
   db.collection('shorturl').findOneAndDelete({name: req.body.name},
   (err, result) => {
@@ -120,4 +109,4 @@ app.delete('/new', (req, res) => {
   });
 });
 
-
+*/

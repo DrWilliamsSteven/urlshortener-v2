@@ -28,22 +28,28 @@
       <h2>url shortener</h2>
       <p>This is a url shortener.</p>
       
-      <ul class="quotes">
-        <% for(var i=0; i<urls.length; i++) {%>
-          <li class="quote">
-            <span><%= urls[i].original_url %></span>: "<span><%= urls[i].short_url %></span>"
-          </li>
-        <% } %>
-      </ul>
-    
-    <form action="/new" method="POST">
+      <form action="/new" method="POST">
       <label for="original_url">Enter a url: </label>
       <input type="text" placeholder="url" name="original_url">
       <button type="submit">Submit</button>
     </form>
     
-    
+    <form action="/:short_url" method="GET">
+      <label for="short_url">Enter a short url: </label>
+      <input type="text" placeholder="shortened url" name="short_url">
+      <button type="submit">Submit</button>
+    </form>
     </div>
+      
+      <ul class="urls">
+        <% for(var i=0; i<urls.length; i++) {%>
+          <li class="url">
+            <span><%= urls[i].original_url %></span>: "<span><%= urls[i].short_url %></span>"
+          </li>
+        <% } %>
+      </ul>
+    
+    
   </div>
   <footer class="footer">
           <div class="container">
