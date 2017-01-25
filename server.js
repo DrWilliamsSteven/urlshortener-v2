@@ -58,6 +58,8 @@ app.post('/new', (req, res) => {
   body.id = nextURLID;
   nextURLID++;
   
+  // check if already in db
+  
   db.collection('shorturl').save(body, (err, result) => {
     if (err) return console.log(err);
     console.log('saved to database');
@@ -67,6 +69,24 @@ app.post('/new', (req, res) => {
     res.json('That is not a valid url');
   }
 });
+
+/*
+app.put('/newurl', (req, res) => {
+  db.collection('quotes')
+  .findOneAndUpdate({name: 'Yoda'}, {
+    $set: {
+      name: req.body.name,
+      quote: req.body.quote
+    }
+  }, {
+    sort: {_id: -1},
+    upsert: true
+  }, (err, result) => {
+    if (err) return res.send(err)
+    res.send(result)
+  })
+})
+*/
 
  app.get('/:short_url', function(req, res) {
     console.log("In comes a " + req.method + " to " + req.url);
