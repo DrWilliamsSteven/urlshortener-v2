@@ -7,7 +7,7 @@
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
 </head>
 <body>
-  <div style="margin:100px;">
+  <div style="margin: auto 250px;">
     <nav class="navbar navbar-inverse navbar-static-top">
   <div class="container">
     <a class="navbar-brand" href="/">url shortener</a>
@@ -28,6 +28,8 @@
       <h2>url shortener</h2>
       <p>This is a url shortener.</p>
       
+      <div class="alert alert-danger" role="alert" style="display: <%= display %>"><%= error %></div>
+      
       <form action="/new" method="POST">
       <label for="original_url">Enter a url: </label>
       <input type="text" placeholder="url" name="original_url">
@@ -39,17 +41,42 @@
       <input type="text" placeholder="shortened url" name="short_url">
       <button type="submit">Submit</button>
     </form>
+    
+    <div style="font-size: 75%;">
+    User Story: I can pass a URL as a parameter and I will receive a shortened URL in the JSON response.<br>
+    User Story: If I pass an invalid URL that doesn't follow the valid http://www.example.com format, the JSON response will contain an error instead.<br>
+    User Story: When I visit that shortened URL, it will redirect me to my original link.<br>
+    </div> 
+    
+    
+    
     </div>
-      
-      <ul class="urls">
+     
+ 
+      <table class="urls">
+        <tr>
+          <th>Full url</th>
+          <th>Shortened url</th>
+        </tr>
+        <% for(var i=0; i<urls.length; i++) {%>
+          <tr class="url">
+            <td><%= urls[i].original_url %></td> 
+            <td><%= urls[i].short_url %></td>
+          </tr>
+        <% } %>
+      </table>
+
+<!--
+     <ul class="urls">
         <% for(var i=0; i<urls.length; i++) {%>
           <li class="url">
             <span><%= urls[i].original_url %></span>: "<span><%= urls[i].short_url %></span>"
           </li>
         <% } %>
       </ul>
-    
-    
+      -->
+      
+      
   </div>
   <footer class="footer">
           <div class="container">

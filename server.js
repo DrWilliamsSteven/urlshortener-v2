@@ -16,9 +16,9 @@ var PORT = process.env.PORT || 8080;
 
 // for mongoDB
 var MongoClient = require('mongodb').MongoClient;
-var assert = require("assert");
+//var assert = require("assert");
 
-var nextURLID = 1;
+//var nextURLID = 1;
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
@@ -70,7 +70,16 @@ app.post('/new', (req, res) => {
   res.redirect('/');
 
   } else {
-    res.json('That is not a valid url');
+    
+    //res.json('That is not a valid url');
+    
+    db.collection('shorturl').find().toArray((err, result) => {
+    if (err) return console.log(err);
+    var error_msg = 'That is not a valid url';
+    res.render('index.ejs', {urls: result, error: error_msg, display: 'block'});
+  });
+  
+    
   }
 });
 
@@ -94,7 +103,7 @@ app.post('/new', (req, res) => {
 app.get('/', (req, res) => {
   db.collection('shorturl').find().toArray((err, result) => {
     if (err) return console.log(err);
-    res.render('index.ejs', {urls: result});
+    res.render('index.ejs', {urls: result, error: null, display: 'none'});
     //console.log(result);
   });
 });
