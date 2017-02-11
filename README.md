@@ -1,4 +1,4 @@
-#Under construction..
+#URL shortener
 
 This is a url shortener app.
 
