@@ -1,6 +1,6 @@
 {
   "name": "urlshortener-v2",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "For fcc project",
   "main": "server.js",
   "repository": "",
